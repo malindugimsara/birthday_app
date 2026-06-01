@@ -1,112 +1,146 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { Music, VolumeX } from "lucide-react";
-import { motion } from "framer-motion";
 
+// (ඔබගේ වෙසක් සංගීතය මෙතැනට ලබා දෙන්න)
 const TRACK = "/happy-birthday.mp3"; 
 
-interface MusicToggleProps {
-  autoPlay?: boolean;
-}
-
-export const MusicToggle = ({ autoPlay }: MusicToggleProps) => {
+export const MusicToggle = ({ autoPlay }) => {
   const [playing, setPlaying] = useState(false);
-  const ref = useRef<HTMLAudioElement | null>(null);
-  
-  
+  const audioRef = useRef(null);
   const hasAttemptedPlay = useRef(false);
+  
+  // 👈 අලුතින් එකතු කළ Ref එක: User හිතාමතාම Pause කළාද කියලා බලන්න
+  const isUserPaused = useRef(false); 
 
+  // 1. Audio object එක හරියට Initialize කිරීම
   useEffect(() => {
     const audio = new Audio(TRACK);
     audio.preload = "auto"; 
-    audio.load(); 
     audio.loop = true;
     audio.volume = 0.5;
-    ref.current = audio;
+    audioRef.current = audio;
     
     return () => {
       audio.pause();
-      ref.current = null;
+      audio.src = ""; 
+      audioRef.current = null;
     };
   }, []);
 
-  useEffect(() => {
+  // 2. Play කිරීමේ Function එක
+  const attemptPlay = useCallback(() => {
+    // User හිතාමතාම pause කරලා නම් හෝ දැනටමත් play වෙනවා නම් ආයෙත් play කරන්නේ නෑ
+    if (!audioRef.current || playing || isUserPaused.current) return;
     
-    if (autoPlay && ref.current && !playing && !hasAttemptedPlay.current) {
-      hasAttemptedPlay.current = true; 
-      
-      if (ref.current.readyState >= 2) {
-        ref.current.play().then(() => setPlaying(true)).catch(() => {});
-      } else {
-        ref.current.addEventListener('canplay', () => {
-          if (!playing) {
-            ref.current?.play().then(() => setPlaying(true)).catch(() => {});
-          }
-        }, { once: true });
-      }
+    const playPromise = audioRef.current.play();
+    if (playPromise !== undefined) {
+      hasAttemptedPlay.current = true;
+      playPromise
+        .then(() => {
+          setPlaying(true);
+          isUserPaused.current = false;
+        })
+        .catch(() => {
+           hasAttemptedPlay.current = false;
+           setPlaying(false);
+        });
     }
-  }, [autoPlay, playing]);
+  }, [playing]);
 
+  // 3. AutoPlay Effect එක
   useEffect(() => {
-    const handleUserInteraction = () => {
-      if (ref.current && !playing && !hasAttemptedPlay.current) {
-        hasAttemptedPlay.current = true;
-        
-        if (ref.current.readyState >= 2) {
-          ref.current.play().then(() => {
-            setPlaying(true);
-          }).catch(() => {});
-        } else {
-          ref.current.addEventListener('canplay', () => {
-            if (!playing) {
-                ref.current?.play().then(() => setPlaying(true)).catch(() => {});
-            }
-          }, { once: true });
-        }
-      }
-      
-     
-      document.removeEventListener("click", handleUserInteraction);
-      document.removeEventListener("touchstart", handleUserInteraction);
+    // පළමු වතාවට පමණක් autoPlay වීමට (hasAttemptedPlay එකෙන් පාලනය වේ)
+    if (autoPlay && !hasAttemptedPlay.current) {
+      attemptPlay();
+    }
+  }, [autoPlay, attemptPlay]);
+
+  // 4. Global Event Listeners (Touch/Click Auto-play)
+  useEffect(() => {
+    // Play වෙනවා නම් හෝ user හිතාමතාම pause කළා නම් listeners අලුතින් attach කරන්නේ නෑ
+    if (playing || isUserPaused.current) return; 
+
+    const handleInteraction = () => {
+      attemptPlay();
+      document.removeEventListener("click", handleInteraction);
+      document.removeEventListener("touchstart", handleInteraction);
     };
 
-    document.addEventListener("click", handleUserInteraction);
-    document.addEventListener("touchstart", handleUserInteraction);
+    document.addEventListener("click", handleInteraction, { once: true });
+    document.addEventListener("touchstart", handleInteraction, { once: true });
     
     return () => {
-      document.removeEventListener("click", handleUserInteraction);
-      document.removeEventListener("touchstart", handleUserInteraction);
+      document.removeEventListener("click", handleInteraction);
+      document.removeEventListener("touchstart", handleInteraction);
+    };
+  }, [playing, attemptPlay]);
+
+  // 5. Browser Visibility & Custom Video Events හැසිරවීම
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        audio.pause();
+      } else if (playing && !isUserPaused.current) {
+        // ආපහු Tab එකට ආවාම, user pause කරලා නැත්නම් විතරක් play වෙනවා
+        audio.play().catch(() => setPlaying(false));
+      }
+    };
+
+    const handlePauseBGM = () => audio.pause();
+    const handleResumeBGM = () => {
+      if (playing && !isUserPaused.current) {
+        audio.play().catch(() => setPlaying(false));
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    window.addEventListener("pause-bgm", handlePauseBGM);
+    window.addEventListener("resume-bgm", handleResumeBGM);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+      window.removeEventListener("pause-bgm", handlePauseBGM);
+      window.removeEventListener("resume-bgm", handleResumeBGM);
     };
   }, [playing]);
 
   const toggle = () => {
-    if (!ref.current) return;
+    if (!audioRef.current) return;
     
     hasAttemptedPlay.current = true; 
 
     if (playing) {
-      ref.current.pause();
+      audioRef.current.pause();
       setPlaying(false);
+      isUserPaused.current = true; // 👈 User pause button එක එබුවාම මේක true වෙනවා
     } else {
-      ref.current.play().then(() => setPlaying(true)).catch(() => {});
+      audioRef.current.play()
+        .then(() => {
+          setPlaying(true);
+          isUserPaused.current = false; // 👈 User ආපහු play කළොත් reset වෙනවා
+        })
+        .catch(() => setPlaying(false));
     }
   };
 
   return (
-    <motion.button
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.92 }}
+    <button
       onClick={(e) => {
         e.stopPropagation(); 
         toggle();
       }}
       aria-label={playing ? "Pause music" : "Play music"}
-      className="fixed top-5 right-5 z-50 glass-card rounded-full p-3 hover:glow-pink transition-shadow cursor-pointer"
+      className="fixed top-5 right-5 z-[100] bg-night-deep/80 backdrop-blur-md border border-yellow-500/50 rounded-full p-3 transition-transform active:scale-90 duration-200 cursor-pointer flex items-center justify-center shadow-[0_0_15px_rgba(250,204,21,0.2)]"
+      style={{ willChange: "transform" }}
     >
       {playing ? (
-        <Music className="w-5 h-5 text-[hsl(var(--pink))] animate-pulse" />
+        <Music className="w-5 h-5 text-yellow-400 animate-[pulse_2s_ease-in-out_infinite]" />
       ) : (
-        <VolumeX className="w-5 h-5 text-muted-foreground" />
+        <VolumeX className="w-5 h-5 text-yellow-500/50" />
       )}
-    </motion.button>
+    </button>
   );
 };

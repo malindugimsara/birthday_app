@@ -74,7 +74,7 @@ const Index = () => {
           >
             <MusicToggle autoPlay={autoPlayMusic} />
             <BirthdayCard
-              friendName="Nisansala"
+              friendName="Nimsha"
               onMusicAutoPlay={() => setAutoPlayMusic(true)}
             />
           </motion.div>

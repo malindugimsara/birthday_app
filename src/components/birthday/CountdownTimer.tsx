@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
-// ඔයාගේ යාලුවගේ උපන්දිනය (දැන් තියෙන්නේ 2002-05-01)
-const BIRTH_DATE = new Date("2002-05-01"); 
+// ඔයාගේ යාලුවගේ උපන්දිනය (දැන් තියෙන්නේ 1999-06-01)
+const BIRTH_DATE = new Date("1999-06-01"); 
 
 export const CountdownTimer = () => {
   const [age, setAge] = useState({ years: 0, months: 0, days: 0 });
@@ -31,32 +31,37 @@ export const CountdownTimer = () => {
     };
 
     calculateAge();
+    // පැයකට සැරයක් විතරක් update වෙන නිසා මේක mobile CPU එකට ප්‍රශ්නයක් නැහැ
     const id = setInterval(calculateAge, 1000 * 60 * 60);
     return () => clearInterval(id);
     
   }, []);
 
-  
-  const totalDays = Math.floor((Date.now() - BIRTH_DATE.getTime()) / (1000 * 60 * 60 * 24));
-
-  const items = [
-    { label: "දැන් වයස 👴", value: age.years },
-    { label: "නිදාගත්තු දවස් 😴", value: `${Math.floor(totalDays / 3)}` },
-    { label: "ෆෝන් එක ඔබපු පැය 📱", value: `${totalDays * 6}` },
-    { label: "නාපු නැති දවස් 🚿", value: "1,205+" }, 
-  ];
+  // useMemo පාවිච්චි කරලා ගණනය කිරීම් (calculations) cache කරගැනීම
+  const items = useMemo(() => {
+    const totalDays = Math.floor((Date.now() - BIRTH_DATE.getTime()) / (1000 * 60 * 60 * 24));
+    
+    return [
+      { label: "දැන් වයස 👴", value: age.years },
+      { label: "නිදාගත්තු දවස් 😴", value: `${Math.floor(totalDays / 3)}` },
+      { label: "ෆෝන් එක ඔබපු පැය 📱", value: `${totalDays * 6}` },
+      { label: "නාපු නැති දවස් 🚿", value: "1,205+" }, 
+    ];
+  }, [age.years]); // age.years වෙනස් වුණොත් විතරක් අලුතින් හදයි
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.9, duration: 0.6 }}
+      transition={{ delay: 0.9, duration: 0.5, ease: "easeOut" }} // Simplified transition
+      style={{ willChange: "transform, opacity" }} // Hardware Acceleration Hint
       className="grid grid-cols-2 gap-3 sm:gap-4 w-full max-w-md mx-auto"
     >
       {items.map((it) => (
         <div
           key={it.label}
-          className="glass-card rounded-2xl py-4 px-2 text-center border border-white/5 hover:border-pink-500/30 transition-colors"
+          // Hover effects වලදී shadow එක වෙනස් වෙන එක optimize කර ඇත
+          className="optimized-glass-card rounded-2xl py-4 px-2 text-center border border-white/5 transition-colors duration-300"
         >
           <div className="font-display text-3xl sm:text-4xl font-bold text-gradient-birthday tabular-nums">
             {it.value}
