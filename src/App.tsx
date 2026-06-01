@@ -6,6 +6,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Index from "./pages/Index.tsx";
 import NotFound from "./pages/NotFound.tsx";
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -21,6 +22,7 @@ const App = () => (
         </Routes>
       </BrowserRouter>
       <Analytics />
+      <SpeedInsights />
     </TooltipProvider>
   </QueryClientProvider>
 );
