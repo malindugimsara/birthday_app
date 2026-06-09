@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const BirthdayCard = ({
-  friendName = "Nimsha",
+  friendName = "Nethmi",
   message = "Wishing you a day full of love, laughter, and happiness. May all your dreams come true and your smile shine brighter than ever. Happy Birthday! 🎉✨",
   onMusicAutoPlay,
 }: Props) => {
@@ -110,7 +110,7 @@ export const BirthdayCard = ({
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.5 }}
-          className="font-display text-4xl sm:text-5xl md:text-6xl font-bold text-center leading-tight text-gradient-birthday"
+          className="pb-2 font-display text-4xl sm:text-5xl md:text-6xl font-bold text-center leading-tight text-gradient-birthday"
         >
           Happy Birthday
         </motion.h1>
@@ -172,7 +172,7 @@ export const BirthdayCard = ({
                 className="w-full flex flex-col items-center mt-4"
                 style={{ willChange: "transform, opacity" }}
               >
-                <h3 className="font-display text-2xl sm:text-3xl text-center text-gradient-birthday mb-2">
+                <h3 className="font-display text-2xl sm:text-3xl text-center text-gradient-birthday mb-2 pb-2">
                   අපි බලමු ඔයාගේ වාසනාව! 🎰
                 </h3>
                 

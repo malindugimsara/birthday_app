@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
-// ඔයාගේ යාලුවගේ උපන්දිනය (දැන් තියෙන්නේ 1999-06-01)
-const BIRTH_DATE = new Date("1999-06-01"); 
+// ඔයාගේ යාලුවගේ උපන්දිනය (දැන් තියෙන්නේ 2001-06-10)
+const BIRTH_DATE = new Date("2001-06-10"); 
 
 export const CountdownTimer = () => {
   const [age, setAge] = useState({ years: 0, months: 0, days: 0 });
