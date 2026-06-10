@@ -147,7 +147,7 @@ export const SpinWheel = ({ onComplete }: { onComplete?: (prize: string) => void
               className="w-full text-center"
             >
               <div className="bg-zinc-900/80 inline-block rounded-2xl py-4 px-8 border border-white/10 shadow-xl w-full max-w-sm">
-                <p className="text-gray-400 text-xs uppercase tracking-widest mb-2">ඔයා දිනපු තෑග්ග</p>
+                <p className="text-gray-400 text-xs uppercase tracking-widest mb-2"> දිනපු තෑග්ග</p>
                 <span className="font-display text-3xl sm:text-4xl font-bold text-red-400 mb-4 block" style={{ textShadow: "0 2px 10px rgba(248, 113, 113, 0.4)" }}>
                   {selectedPrize}
                 </span>
@@ -158,7 +158,7 @@ export const SpinWheel = ({ onComplete }: { onComplete?: (prize: string) => void
                   transition={{ delay: 0.3 }}
                   className="text-white text-sm sm:text-base bg-red-500/20 rounded-lg p-3 border border-red-500/30 mt-3"
                 >
-                  හසින්තා මිස්ගෙන් ලස්ස්න gift එකක් හම්බවේවි! 🎉
+                  නම කියන්න බෑ 😅 
                   {/* අයියෝ! තෑග්ගක් දින්නනම් අරන් දෙන්න තිබුනා 😁  */}
                 </motion.p>
               </div>
