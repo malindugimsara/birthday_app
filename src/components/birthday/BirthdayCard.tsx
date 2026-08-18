@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 import { Gift, Sparkles, Heart, Mail, PhoneOutgoing, Facebook } from "lucide-react";
@@ -21,6 +21,9 @@ export const BirthdayCard = ({
   onMusicAutoPlay,
 }: Props) => {
   const [revealed, setRevealed] = useState(false);
+  
+  // 💡 Auto Scroll කිරීම සඳහා අලුතින් Ref එකක් සාදා ගැනීම
+  const surpriseSectionRef = useRef<HTMLDivElement>(null);
 
   // Optimized Confetti Function inside the component to check screen size
   const fireConfetti = useCallback(() => {
@@ -60,6 +63,14 @@ export const BirthdayCard = ({
     // Repeat bursts with safe delays
     setTimeout(fireConfetti, 800);
     setTimeout(fireConfetti, 1800);
+
+    // 💡 Button එක Click කළ විට Wheel එක වෙත ස්වයංක්‍රීයව Scroll වීම
+    setTimeout(() => {
+      surpriseSectionRef.current?.scrollIntoView({ 
+        behavior: "smooth", 
+        block: "center" // තිරයේ මැදට එන සේ Scroll වීම
+      });
+    }, 300); // Animation එක load වීමට සුළු වෙලාවක් ලබාදීම
   };
 
   return (
@@ -145,7 +156,8 @@ export const BirthdayCard = ({
         </div>
 
         {/* Surprise Section */}
-        <div className="mt-8 flex flex-col items-center">
+        {/* 💡 Ref එක මෙතැනට සම්බන්ධ කළා */}
+        <div ref={surpriseSectionRef} className="mt-8 flex flex-col items-center scroll-mt-20">
           <AnimatePresence mode="wait">
             {!revealed ? (
               <motion.button
@@ -216,35 +228,6 @@ export const BirthdayCard = ({
                 ❤️
               </span>
             </div>
-
-            {/* Social Links Section */}
-            {/* <div className="flex items-center gap-4 sm:gap-6">
-              <a 
-                href="https://www.facebook.com/profile.php?id=61589021800561" 
-                aria-label="Facebook" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-2.5 sm:p-3 rounded-full bg-white/5 border border-white/10 text-[hsl(var(--blue))] hover:bg-white/10 hover:shadow-[0_0_15px_hsl(var(--blue))] active:scale-90 transition-all duration-200"
-              >
-                <Facebook className="h-4 w-4 sm:h-5 sm:w-5" />
-              </a>
-              
-              <a 
-                href="tel:+94788536767" 
-                aria-label="Phone" 
-                className="p-2.5 sm:p-3 rounded-full bg-white/5 border border-white/10 text-[hsl(var(--gold))] hover:bg-white/10 hover:shadow-[0_0_15px_hsl(var(--gold))] active:scale-90 transition-all duration-200"
-              >
-                <PhoneOutgoing className="h-4 w-4 sm:h-5 sm:w-5" />
-              </a>
-              
-              <a 
-                href="mailto:codecraftservicesm@gmail.com" 
-                aria-label="Email" 
-                className="p-2.5 sm:p-3 rounded-full bg-white/5 border border-white/10 text-[hsl(var(--pink))] hover:bg-white/10 hover:shadow-[0_0_15px_hsl(var(--pink))] active:scale-90 transition-all duration-200"
-              >
-                <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
-              </a>
-            </div> */}
           </div>
         </motion.p>
       </div>
