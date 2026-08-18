@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const BirthdayCard = ({
-  friendName = "Nethmi",
+  friendName = "Miss Maleesha ",
   message = "Wishing you a day full of love, laughter, and happiness. May all your dreams come true and your smile shine brighter than ever. Happy Birthday! 🎉✨",
   onMusicAutoPlay,
 }: Props) => {

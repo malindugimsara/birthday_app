@@ -63,7 +63,7 @@ const Index = () => {
                 transition={{ delay: 0.3, duration: 0.8 }}
                 className="font-display text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-pink-300 drop-shadow-sm leading-tight pb-2"
               >
-                Happy Birthday, Dear Maleesha Miss! ✨
+                Happy Birthday, Dear Miss Maleesha! ✨
               </motion.h1>
               
               {/* Message Card */}
@@ -117,7 +117,7 @@ const Index = () => {
           >
             <MusicToggle autoPlay={autoPlayMusic} />
             <BirthdayCard
-              friendName="Maleesha Miss"
+              friendName="Miss Maleesha "
               onMusicAutoPlay={() => setAutoPlayMusic(true)}
             />
           </motion.div>
