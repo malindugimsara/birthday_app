@@ -176,7 +176,7 @@ export const BirthdayCard = ({
                   අපි බලමු ඔයාගේ වාසනාව! 🎰
                 </h3>
                 
-                <SpinWheel />
+                <SpinWheel onComplete={() => {}} />
 
               </motion.div>
             )}
@@ -204,13 +204,13 @@ export const BirthdayCard = ({
             {/* Branding Text Section */}
             <div className="flex items-center justify-center gap-1.5 sm:gap-2 font-display cursor-default select-none flex-wrap">
               <span className="font-bold text-sm sm:text-base text-gradient-birthday tracking-wide drop-shadow-sm">
-                CODECRAFT
+                
               </span>
               <span className="text-[9px] sm:text-[10px] uppercase tracking-[0.25em] text-white/50 font-light mt-0.5">
-                Design By
+                Design By 
               </span>
-              <span className="font-semibold italic text-sm sm:text-base text-[hsl(var(--rose))]" style={{ textShadow: "0 0 12px hsla(330, 90%, 70%, 0.5)" }}>
-                Malindu
+              <span className="italic text-sm sm:text-base text-[hsl(var(--rose))]" style={{ textShadow: "0 0 12px hsla(330, 90%, 70%, 0.5)" }}>
+                Rresearch & Development Unit
               </span>
               <span className="inline-block text-[hsl(var(--gold))] text-sm sm:text-base animate-[pulse_2s_ease-in-out_infinite]" style={{ filter: "drop-shadow(0 0 6px hsl(var(--gold)))" }}>
                 ❤️
@@ -218,7 +218,7 @@ export const BirthdayCard = ({
             </div>
 
             {/* Social Links Section */}
-            <div className="flex items-center gap-4 sm:gap-6">
+            {/* <div className="flex items-center gap-4 sm:gap-6">
               <a 
                 href="https://www.facebook.com/profile.php?id=61589021800561" 
                 aria-label="Facebook" 
@@ -244,7 +244,7 @@ export const BirthdayCard = ({
               >
                 <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
               </a>
-            </div>
+            </div> */}
           </div>
         </motion.p>
       </div>

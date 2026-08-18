@@ -7,16 +7,16 @@ const WHEEL_ITEMS = [
   { label: "Surprise Gift", icon: "🎁", color: "#06b6d4" }, 
   { label: "Chocolate එකක්", icon: "🍫", color: "#10b981" },
   { label: "ඇදුමක්", icon: "👕", color: "#8b5cf6" },
-  { label: "කෝපි එකක්", icon: "☕", color: "#06b6d4" },
+  { label: "ආදරය", icon: "❤️", color: "#06b6d4" },
   { label: "ආයේ කරකවන්න", icon: "🔄", color: "#ef4444" },
   { label: "Bag යමු", icon: "🛍️", color: "#f97316" },
   { label: "Phone Reload", icon: "📱", color: "#3b82f6" },
   { label: "Ice Cream", icon: "🍦", color: "#10b981" },
   { label: "Surprise Gift", icon: "🎁", color: "#06b6d4" },
-  { label: "මොකුත් නෑ", icon: "😭", color: "#8b5cf6" },
+  { label: "කෝපි එකක්", icon: "☕", color: "#8b5cf6" },
 ];
 
-export const SpinWheel = ({ onComplete }: { onComplete?: (prize: string) => void }) => {
+export const SpinWheel = ({ onComplete }) => {
   const [spinning, setSpinning] = useState(false);
   const [selectedPrize, setSelectedPrize] = useState(null);
   const wheelRef = useRef(null);
@@ -35,7 +35,8 @@ export const SpinWheel = ({ onComplete }: { onComplete?: (prize: string) => void
     setSpinning(true);
     setSelectedPrize(null);
 
-    const winningIndex = 2; // හැමතිස්සෙම මොකුත් නෑ එකට එන්න
+    // හැමතිස්සෙම 5 වෙනි Index එක (ආදරය) දිනන විදිහට Default කර ඇත
+    const winningIndex = 5; 
     
     const currentItemAngle = (winningIndex * segmentAngle) + (segmentAngle / 2);
     const baseTargetAngle = 180 - currentItemAngle; 
@@ -84,23 +85,30 @@ export const SpinWheel = ({ onComplete }: { onComplete?: (prize: string) => void
         >
           {WHEEL_ITEMS.map((item, index) => {
             const rotation = index * segmentAngle + (segmentAngle / 2);
+            // වම් පැත්තේ තියෙන Text කණපිට ගැහෙන එක නවත්තන්න Logic එක
+            const isLeftHalf = rotation > 90 && rotation < 270;
+
             return (
               <div
                 key={index}
-                // pl-[52px] sm:pl-[64px] දීලා මැද රවුමෙන් එළියට text එක තල්ලු කළා
-                className="absolute top-1/2 left-1/2 w-[50%] origin-left flex items-center justify-end pr-2 sm:pr-4 pl-[52px] sm:pl-[64px]"
+                className="absolute top-1/2 left-1/2 w-[50%] origin-left flex items-center justify-end pr-2 sm:pr-4"
                 style={{ transform: `translateY(-50%) rotate(${rotation}deg)` }}
               >
-                <span 
-                  // දිග වචන පේළි දෙකකට කැඩෙන්න max-w සහ leading දුන්නා
-                  className="text-white font-bold text-[9.5px] sm:text-[11px] tracking-wide mr-1 sm:mr-2 text-right leading-[1.2] max-w-[65px] sm:max-w-[80px]"
-                  style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}
-                >
-                  {item.label}
-                </span>
-                <span className="text-sm sm:text-xl shrink-0" style={{ filter: "drop-shadow(1px 1px 2px rgba(0,0,0,0.3))" }}>
-                  {item.icon}
-                </span>
+                {/* Text එකයි Icon එකයි කෙළින් තියාගන්න ඇතුලත div එක rotate කරනවා */}
+                <div className={`flex items-center ${isLeftHalf ? 'rotate-180 flex-row-reverse' : ''}`}>
+                  <span 
+                    className="text-white font-bold text-[9.5px] sm:text-[11px] tracking-wide text-right leading-[1.2] max-w-[65px] sm:max-w-[80px]"
+                    style={{ textShadow: "1px 1px 2px rgba(0,0,0,0.5)" }}
+                  >
+                    {item.label}
+                  </span>
+                  <span 
+                    className={`text-sm sm:text-xl shrink-0 ${isLeftHalf ? 'mr-1 sm:mr-2' : 'ml-1 sm:ml-2'}`} 
+                    style={{ filter: "drop-shadow(1px 1px 2px rgba(0,0,0,0.3))" }}
+                  >
+                    {item.icon}
+                  </span>
+                </div>
               </div>
             );
           })}
@@ -158,9 +166,7 @@ export const SpinWheel = ({ onComplete }: { onComplete?: (prize: string) => void
                   transition={{ delay: 0.3 }}
                   className="text-white text-sm sm:text-base bg-red-500/20 rounded-lg p-3 border border-red-500/30 mt-3"
                 >
-                  නම කියන්න බෑ 😅 
-                  {/* අයියෝ! තෑග්ගක් දින්නනම් අරන් දෙන්න තිබුනා 😁  */}
-                </motion.p>
+අපේ කාර්ය මණ්ඩලයේ ආදරය තමයි වටිනාම තෑග්ග! ඔබට හැමදාමත් සතුට, ජයග්‍රහණය ප්‍රාර්ථනා කරනවා. 🌸                </motion.p>
               </div>
             </motion.div>
           )}

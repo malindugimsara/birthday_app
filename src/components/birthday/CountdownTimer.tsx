@@ -1,8 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
-// ඔයාගේ යාලුවගේ උපන්දිනය (දැන් තියෙන්නේ 2001-06-10)
-const BIRTH_DATE = new Date("2001-06-10"); 
+// ඔයාගේ යාලුවගේ උපන්දිනය (දැන් තියෙන්නේ 2000-08-18)
+const BIRTH_DATE = new Date("2000-08-18"); 
 
 export const CountdownTimer = () => {
   const [age, setAge] = useState({ years: 0, months: 0, days: 0 });
@@ -42,10 +42,10 @@ export const CountdownTimer = () => {
     const totalDays = Math.floor((Date.now() - BIRTH_DATE.getTime()) / (1000 * 60 * 60 * 24));
     
     return [
-      { label: "දැන් වයස 👴", value: age.years },
-      { label: "නිදාගත්තු දවස් 😴", value: `${Math.floor(totalDays / 3)}` },
-      { label: "ෆෝන් එක ඔබපු පැය 📱", value: `${totalDays * 6}` },
-      { label: "නාපු නැති දවස් 🚿", value: "1,205+" }, 
+      { label: "ජීවිතයේ සුන්දර වසර 🌸", value: age.years },
+  { label: "සතුටින් ගෙවුණු දින 🌟", value: `${totalDays}` },
+  { label: "බෙදාගත් සිනහවන් 😊", value: `${totalDays * 5}+` }, // දවසකට හිනා 5ක් වත් බෙදාගෙන තියෙනවා කියලා පෙන්වන්න
+  { label: "අපේ ආදරය හා ගෞරවය ❤️", value: "අනන්තයි" }
     ];
   }, [age.years]); // age.years වෙනස් වුණොත් විතරක් අලුතින් හදයි
 

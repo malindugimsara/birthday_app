@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Gift, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react"; // Gift icon එක ඉවත් කළා
 
 // ඔයාගේ Components ටික
 import { AnimatedBackground } from "@/components/birthday/AnimatedBackground";
@@ -8,7 +8,6 @@ import { BirthdayCard } from "@/components/birthday/BirthdayCard";
 import { MusicToggle } from "@/components/birthday/MusicToggle";
 
 const Index = () => {
-  
   const [introFinished, setIntroFinished] = useState(false);
   const [autoPlayMusic, setAutoPlayMusic] = useState(false);
 
@@ -20,12 +19,10 @@ const Index = () => {
   return (
     <main className="relative min-h-screen w-full flex items-center justify-center px-4 py-10 sm:py-16 overflow-hidden">
       
-      
       <AnimatedBackground />
 
       <AnimatePresence mode="wait">
         {!introFinished ? (
-          
           <motion.div
             key="intro"
             initial={{ opacity: 0, scale: 0.95 }}
@@ -34,14 +31,19 @@ const Index = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/70 backdrop-blur-lg px-6"
           >
-            {/* Floating Gift Icon */}
+            {/* Floating Logo */}
             <motion.div
               animate={{ y: [0, -15, 0] }}
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
               className="relative mb-8"
             >
-              <div className="relative z-10 bg-white/10 p-5 rounded-full backdrop-blur-sm border border-white/20 shadow-[0_0_50px_hsla(320,90%,60%,0.3)]">
-                <Gift className="w-20 h-20 text-pink-400 drop-shadow-[0_0_15px_rgba(236,72,153,0.8)]" />
+              <div className="relative z-10 bg-white/10 p-5 rounded-full backdrop-blur-sm border border-white/20 shadow-[0_0_50px_hsla(320,90%,60%,0.3)] overflow-hidden flex items-center justify-center">
+                {/* Gift icon එක වෙනුවට logo.png එකතු කළා */}
+                <img 
+                  src="/logo.png" 
+                  alt="Company Logo" 
+                  className="w-20 h-20 object-contain drop-shadow-[0_0_15px_rgba(236,72,153,0.8)]"
+                />
               </div>
               <motion.div
                 animate={{ rotate: 360 }}
@@ -61,10 +63,10 @@ const Index = () => {
                 transition={{ delay: 0.3, duration: 0.8 }}
                 className="font-display text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-purple-300 to-pink-300 drop-shadow-sm leading-tight pb-2"
               >
-                Hi Nethmi..! අද special දවසක් නේද..? ✨
+                Happy Birthday, Dear Maleesha Miss! ✨
               </motion.h1>
               
-              {/* Message Card - Background අයින් කරලා Border එක විතරක් දුන්නා */}
+              {/* Message Card */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -72,22 +74,15 @@ const Index = () => {
                 className="relative border border-white/30 rounded-3xl p-6 sm:p-8"
               >
                 <p className="text-lg sm:text-xl text-white/90 font-light leading-relaxed">
-                  {/* Highlighted Names */}
-                  <span className="text-white/80">අද දවස අමතක නොවෙන්න</span>
-                  <span className="block text-pink-200 font-medium mb-3 text-xl sm:text-2xl drop-shadow-sm">
-                    හසින්තා මිස්, කාවින්ද, මලිඳු මල්ලි<br className="hidden sm:block" /> සහ සෙත්මින මල්ලිගෙන්
+                  <span className="text-white/80">අද special දවසක් නේද ☺️</span>
+                  <span className="block text-pink-200 font-medium my-3 text-xl sm:text-2xl drop-shadow-sm">
+                    අතුකෝරල සමූහ ව්‍යාපාරයේ <br className="hidden sm:block" /> සේවක මණ්ඩලයෙන්...
                   </span>
-                  <span className="text-white/80">චූටි දෙයක්... ☺️</span>
+                  <span className="text-white/80">ආදරණීය මතක සටහනක් ☺️</span>
                 </p>
 
                 {/* Beautiful Divider */}
                 <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto my-5" />
-
-                {/* Hint & Call to Action */}
-                <p className="text-base sm:text-md text-white/90 leading-relaxed">
-                  ආ.. පොඩි gift එකකුත් තියෙන්න පුලුවන්! 😉 <br />
-                  Try කරල බලන්න 🙈
-                </p>
               </motion.div>
             </div>
 
@@ -102,18 +97,17 @@ const Index = () => {
               className="group relative overflow-hidden bg-gradient-to-r from-pink-500 to-purple-600 rounded-full py-4 px-8 text-lg font-bold text-white shadow-[0_0_30px_hsla(320,90%,60%,0.4)] flex items-center gap-3 border border-white/30 transition-all"
             >
               <span className="relative z-10 flex items-center gap-2">
-                Card එක open කරල බලන්න
+                Card එක Open කරල බලන්න
                 <motion.div
                   animate={{ x: [0, 5, 0] }}
                   transition={{ repeat: Infinity, duration: 1.5 }}
-                          >
+                >
                   🎁
                 </motion.div>
               </span>
             </motion.button>
           </motion.div> 
         ) : (
-          
           <motion.div
             key="main"
             initial={{ opacity: 0, y: 50 }}
@@ -123,7 +117,7 @@ const Index = () => {
           >
             <MusicToggle autoPlay={autoPlayMusic} />
             <BirthdayCard
-              friendName="Nethmi"
+              friendName="Maleesha Miss"
               onMusicAutoPlay={() => setAutoPlayMusic(true)}
             />
           </motion.div>
