@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { motion } from "framer-motion";
 
 // ඔයාගේ යාලුවගේ උපන්දිනය (දැන් තියෙන්නේ 2000-08-18)
-const BIRTH_DATE = new Date("2000-08-18"); 
+const BIRTH_DATE = new Date("1969-10-13");
 
 export const CountdownTimer = () => {
   const [age, setAge] = useState({ years: 0, months: 0, days: 0 });
@@ -34,18 +34,18 @@ export const CountdownTimer = () => {
     // පැයකට සැරයක් විතරක් update වෙන නිසා මේක mobile CPU එකට ප්‍රශ්නයක් නැහැ
     const id = setInterval(calculateAge, 1000 * 60 * 60);
     return () => clearInterval(id);
-    
+
   }, []);
 
   // useMemo පාවිච්චි කරලා ගණනය කිරීම් (calculations) cache කරගැනීම
   const items = useMemo(() => {
     const totalDays = Math.floor((Date.now() - BIRTH_DATE.getTime()) / (1000 * 60 * 60 * 24));
-    
+
     return [
       { label: "ජීවිතයේ සුන්දර වසර 🌸", value: age.years },
-  { label: "සතුටින් ගෙවුණු දින 🌟", value: `${totalDays}` },
-  { label: "බෙදාගත් සිනහවන් 😊", value: `${totalDays * 5}+` }, // දවසකට හිනා 5ක් වත් බෙදාගෙන තියෙනවා කියලා පෙන්වන්න
-  { label: "අපේ ආදරය හා ගෞරවය ❤️", value: "අනන්තයි" }
+      { label: "සතුටින් ගෙවුණු දින 🌟", value: `${totalDays}` },
+      { label: "ඔබෙන් ලැබුණු ආදරය ❤️", value: "අසීමිතයි" },
+      { label: "අපේ ආදරය හා ගෞරවය 🙏", value: "අනන්තයි" }
     ];
   }, [age.years]); // age.years වෙනස් වුණොත් විතරක් අලුතින් හදයි
 

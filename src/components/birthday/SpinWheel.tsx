@@ -2,18 +2,18 @@ import { useState, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const WHEEL_ITEMS = [
-  { label: "Pizza එකක්", icon: "🍕", color: "#ef4444" },
-  { label: "Movie ටිකට් 2ක්", icon: "🎬", color: "#f97316" },
-  { label: "Surprise Gift", icon: "🎁", color: "#06b6d4" }, 
-  { label: "Chocolate එකක්", icon: "🍫", color: "#10b981" },
-  { label: "ඇදුමක්", icon: "👕", color: "#8b5cf6" },
-  { label: "ආදරය", icon: "❤️", color: "#06b6d4" },
+  { label: "ලස්සන සාරියක්", icon: "🥻", color: "#ef4444" },
+  { label: "රසම කෑම වේලක්", icon: "🍛", color: "#f97316" },
+  { label: "Surprise Gift", icon: "🎁", color: "#06b6d4" }, // මේක තමයි දිනන්නේ (Index 2)
+  { label: "නිරෝගී සුවය", icon: "🌿", color: "#10b981" },
+  { label: "විශේෂ තෑග්ගක්", icon: "🛍️", color: "#8b5cf6" },
+  { label: "අපේ ආදරය", icon: "❤️", color: "#06b6d4" },
   { label: "ආයේ කරකවන්න", icon: "🔄", color: "#ef4444" },
-  { label: "Bag යමු", icon: "🛍️", color: "#f97316" },
-  { label: "Phone Reload", icon: "📱", color: "#3b82f6" },
-  { label: "Ice Cream", icon: "🍦", color: "#10b981" },
+  { label: "Shopping යමු", icon: "👜", color: "#f97316" },
+  { label: "පවුලේ සතුට", icon: "👨‍👩‍👧‍👦", color: "#3b82f6" },
+  { label: "පන්සල් යමු", icon: "🙏", color: "#10b981" },
   { label: "Surprise Gift", icon: "🎁", color: "#06b6d4" },
-  { label: "කෝපි එකක්", icon: "☕", color: "#8b5cf6" },
+  { label: "ආදරණීය මතකයක්", icon: "🖼️", color: "#8b5cf6" },
 ];
 
 export const SpinWheel = ({ onComplete }) => {
@@ -26,7 +26,7 @@ export const SpinWheel = ({ onComplete }) => {
 
   const backgroundGradient = useMemo(() => {
     return `conic-gradient(from 90deg, ${WHEEL_ITEMS.map(
-      (item, i) => `${item.color} ${i * segmentAngle}deg ${(i + 1) * segmentAngle}deg`
+      (item, i) => `${item.color} ${i * segmentAngle}deg${(i + 1) * segmentAngle}deg`
     ).join(", ")})`;
   }, [segmentAngle]);
 
@@ -35,8 +35,8 @@ export const SpinWheel = ({ onComplete }) => {
     setSpinning(true);
     setSelectedPrize(null);
 
-    // හැමතිස්සෙම 5 වෙනි Index එක (ආදරය) දිනන විදිහට Default කර ඇත
-    const winningIndex = 5; 
+    // අම්මාට Surprise Gift එක (Index 2) ලැබෙන පරිදි සකසා ඇත
+    const winningIndex = 2; 
     
     const currentItemAngle = (winningIndex * segmentAngle) + (segmentAngle / 2);
     const baseTargetAngle = 180 - currentItemAngle; 
@@ -85,7 +85,6 @@ export const SpinWheel = ({ onComplete }) => {
         >
           {WHEEL_ITEMS.map((item, index) => {
             const rotation = index * segmentAngle + (segmentAngle / 2);
-            // වම් පැත්තේ තියෙන Text කණපිට ගැහෙන එක නවත්තන්න Logic එක
             const isLeftHalf = rotation > 90 && rotation < 270;
 
             return (
@@ -94,7 +93,6 @@ export const SpinWheel = ({ onComplete }) => {
                 className="absolute top-1/2 left-1/2 w-[50%] origin-left flex items-center justify-end pr-2 sm:pr-4"
                 style={{ transform: `translateY(-50%) rotate(${rotation}deg)` }}
               >
-                {/* Text එකයි Icon එකයි කෙළින් තියාගන්න ඇතුලත div එක rotate කරනවා */}
                 <div className={`flex items-center ${isLeftHalf ? 'rotate-180 flex-row-reverse' : ''}`}>
                   <span 
                     className="text-white font-bold text-[9.5px] sm:text-[11px] tracking-wide text-right leading-[1.2] max-w-[65px] sm:max-w-[80px]"
@@ -123,8 +121,8 @@ export const SpinWheel = ({ onComplete }) => {
             className={`w-24 h-24 sm:w-28 sm:h-28 bg-white rounded-full flex items-center justify-center border-[4px] border-gray-100 shadow-[0_0_15px_rgba(0,0,0,0.15)] ${spinning ? 'cursor-default' : 'cursor-pointer'}`}
           >
               <div className="text-center pointer-events-none">
-                  <span className="text-sm sm:text-base font-bold text-gray-800 block">🌸 Spring 🌸</span>
-                  <span className="text-[10px] text-gray-500 font-semibold block mt-1">Surprise!</span>
+                  <span className="text-sm sm:text-base font-bold text-gray-800 block">🌸 අම්මා 🌸</span>
+                  <span className="text-[10px] text-gray-500 font-semibold block mt-1">Special Gift!</span>
               </div>
           </motion.div>
         </div>
@@ -156,7 +154,7 @@ export const SpinWheel = ({ onComplete }) => {
             >
               <div className="bg-zinc-900/80 inline-block rounded-2xl py-4 px-8 border border-white/10 shadow-xl w-full max-w-sm">
                 <p className="text-gray-400 text-xs uppercase tracking-widest mb-2"> දිනපු තෑග්ග</p>
-                <span className="font-display text-3xl sm:text-4xl font-bold text-red-400 mb-4 block" style={{ textShadow: "0 2px 10px rgba(248, 113, 113, 0.4)" }}>
+                <span className="font-display text-3xl sm:text-4xl font-bold text-pink-400 mb-4 block" style={{ textShadow: "0 2px 10px rgba(244, 114, 182, 0.4)" }}>
                   {selectedPrize}
                 </span>
 
@@ -164,9 +162,10 @@ export const SpinWheel = ({ onComplete }) => {
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="text-white text-sm sm:text-base bg-red-500/20 rounded-lg p-3 border border-red-500/30 mt-3"
+                  className="text-white text-sm sm:text-base bg-pink-500/20 rounded-lg p-3 border border-pink-500/30 mt-3"
                 >
-අපේ කාර්ය මණ්ඩලයේ ආදරය තමයි වටිනාම තෑග්ග! ඔබට හැමදාමත් සතුට, ජයග්‍රහණය ප්‍රාර්ථනා කරනවා. 🌸                </motion.p>
+                  අපෙන් ආදරණීය අම්මාට පුංචි Surprise තෑග්ගක්! අපේ ආදරය හැමදාමත් අම්මා එක්ක තියෙනවා. නිදුක් නිරෝගී සුවය ප්‍රාර්ථනා කරනවා! 🌸
+                </motion.p>
               </div>
             </motion.div>
           )}

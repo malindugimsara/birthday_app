@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import confetti from "canvas-confetti";
 import { Gift, Sparkles, Heart, Mail, PhoneOutgoing, Facebook } from "lucide-react";
-import friendPhoto from "@/assets/friend-photo.jpeg"; 
+import friendPhoto from "@/assets/friend-photo.jpg"; 
 import { BirthdayCake } from "./BirthdayCake";
 import { CountdownTimer } from "./CountdownTimer"; 
 import { Typewriter } from "./Typewriter";
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const BirthdayCard = ({
-  friendName = "Miss Maleesha ",
+  friendName = "Amma",
   message = "Wishing you a day full of love, laughter, and happiness. May all your dreams come true and your smile shine brighter than ever. Happy Birthday! 🎉✨",
   onMusicAutoPlay,
 }: Props) => {
@@ -210,7 +210,7 @@ export const BirthdayCard = ({
                 Design By 
               </span>
               <span className="italic text-sm sm:text-base text-[hsl(var(--rose))]" style={{ textShadow: "0 0 12px hsla(330, 90%, 70%, 0.5)" }}>
-                Rresearch & Development Unit
+                MG
               </span>
               <span className="inline-block text-[hsl(var(--gold))] text-sm sm:text-base animate-[pulse_2s_ease-in-out_infinite]" style={{ filter: "drop-shadow(0 0 6px hsl(var(--gold)))" }}>
                 ❤️
@@ -218,7 +218,7 @@ export const BirthdayCard = ({
             </div>
 
             {/* Social Links Section */}
-            {/* <div className="flex items-center gap-4 sm:gap-6">
+            <div className="flex items-center gap-4 sm:gap-6">
               <a 
                 href="https://www.facebook.com/profile.php?id=61589021800561" 
                 aria-label="Facebook" 
@@ -244,7 +244,7 @@ export const BirthdayCard = ({
               >
                 <Mail className="h-4 w-4 sm:h-5 sm:w-5" />
               </a>
-            </div> */}
+            </div>
           </div>
         </motion.p>
       </div>
